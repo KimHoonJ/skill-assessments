@@ -22,7 +22,7 @@ library(plotly)
 2. Filter the data to include only rows where Year is 1962 and then make a scatter plot comparing 'CO2 emissions (metric tons per capita)' and gdpPercap for the filtered data.
 
 ```{r}
-data <- read.csv("C:/Users/User/Desktop/Github/RforDataScience/gapminder_clean.csv")
+data <- read.csv("gapminder_clean.csv")
 y1962 <- data %>% 
   filter(Year == 1962) %>% 
   filter(!is.na(gdpPercap)) %>%
@@ -43,12 +43,19 @@ ggplotly(plot1962)
 ```{r}
 gdpvar <- y1962["gdpPercap"][[1]]
 co2var <- y1962["CO2.emissions..metric.tons.per.capita."][[1]]
+
+boxplot(co2var)
+boxplot(gdpvar)
+
 cor.test(co2var, gdpvar, 
-         method="pearson")
+         method="spearman")
+
 
 
 ```
-For calculating the correlation between two continuous variables, Pearson's product-moment correlation seemed appropriate.
+For calculating the correlation between two continuous variables, Pearson's product-moment correlation or Spearman's rank correlation were appropriate.
+
+However, due to existence of outliers, Spearman's correlation was chosen. (If ties prevented us from reaching the exact p value, kendall's correlation would be used instead)
 
 
 4. On the unfiltered data, answer "In what year is the correlation between 'CO2 emissions (metric tons per capita)' and gdpPercap the strongest?" Filter the dataset to that year for the next step...
@@ -60,8 +67,11 @@ years <- data %>%
   filter(!is.na(gdpPercap)) %>%
   group_by(Year) %>% summarise(avg=mean(gdpPercap))
 ## used for counting how many years.
+```
 
-
+```{r include = FALSE}
+## For loop is not encouraged.
+cordata=data.frame
 for (i in 1:lengths(years[1])){
 
   cyear <- years[i,1][[1]]
@@ -77,9 +87,13 @@ for (i in 1:lengths(years[1])){
   cordata <- rbind(cordata,corresult)
     
 }
+cordata <- data %>% group_by(Year) %>%
+  summarise(cor = cor.test(CO2.emissions..metric.tons.per.capita., gdpPercap, method="spearman")[[4]],
+            pval = cor.test(CO2.emissions..metric.tons.per.capita., gdpPercap, method="spearman")[[3]])
+
 rownames(cordata) <- NULL
 
-cordata <- cordata %>% arrange(desc(correlation))
+cordata <- cordata %>% arrange(desc(cor))
 
 cordata
 ```

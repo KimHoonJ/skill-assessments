@@ -3,6 +3,7 @@ import time
 
 ### Tic tac toe
 
+
 def init():
   global board
   board = [
@@ -19,7 +20,7 @@ def init():
   p_l = [] #list of numbers player currently controls.
   c_l = [] #list of numbers computer currently controls.
   global win
-  win = 0 # win == 1, player won. win == 2, computer won.
+  win = 0 # win == 1, player won. win == 2, computer won. win == -1, tie
 
 def pr_b():
   print(board[0])
@@ -160,6 +161,21 @@ def check_win(x, y):
   if "7" in x:
     if ("8" in x) & ("9" in x):
       win = y
+      
+
+def tie():
+  global board
+  global win
+  tielist = []
+  for list in board:
+    for item in list:
+      try:
+        tielist.append(int(item))
+      except ValueError:
+        continue
+  if tielist == []:
+    win = -1
+
 
 def play():
   global p_c
@@ -197,6 +213,10 @@ def play():
     if win == 1:
       print("Congrats. You won")
       break
+    tie()
+    if win == -1:
+      print("It is a tie!")
+      break
     print("###############################")
     print("It is currently computer's turn")
     print("###############################")
@@ -208,6 +228,10 @@ def play():
     check_win(c_l, 2)
     if win == 2:
       print("You lost. How?")
+      break
+    tie()
+    if win == -1:
+      print("It is a tie!")
       break
 
 play()
