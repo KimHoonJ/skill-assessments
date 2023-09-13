@@ -6,6 +6,7 @@ output:
   html_document:
     theme: readable
     toc: true
+    toc_float: true
 ---
 
 ```{r setup, include=FALSE}
@@ -23,14 +24,14 @@ but also was turning my laptop into a frying pan.
 The analysis was done in R, and the images were loaded using knitr.
 The tables of results were saved in csv files and were loaded.
 
-### PCA plot
+## PCA plot
 
 ```{r, echo=FALSE, out.width="800px"}
 include_graphics("PCA.jpeg")
 ```
 
 
-### MA plot
+## MA plot
 used normalized result (type == "normal")
 
 ```{r, echo=FALSE, out.width="800px"}
@@ -38,20 +39,21 @@ include_graphics("plotMA.jpeg")
 ```
 
 
-### DEG table
+## DEG table
 only top 6 rows
 ```{r, echo=FALSE}
 kable(head(read.csv("results.csv")))
 ```
 
-### Volcano plot
+## Volcano plot
 
 ```{r, echo=FALSE, out.width="800px"}
 include_graphics("Volcano.jpeg")
 ```
 
 
-### Pheatmap - over-expressed
+## Pheatmap
+### Top 10 over-expressed genes
 
 ```{r, echo=FALSE, out.width="800px"}
 include_graphics("Toppheat.jpeg")
@@ -59,7 +61,7 @@ include_graphics("Toppheat.jpeg")
 ```
 
 
-### Pheatmap - under-expressed
+### Top 10 under-expressed genes
 
 ```{r, echo=FALSE, out.width="800px"}
 include_graphics("Botpheat.jpeg")
@@ -67,8 +69,9 @@ include_graphics("Botpheat.jpeg")
 ```
 
 
-### Enrichment analysis - over-expressed
+## Enrichment analysis
 
+### Top 10 over-expressed genes
 ```{r, echo=FALSE, out.width="800px"}
 include_graphics("OenrichR.jpeg")
 
@@ -80,7 +83,8 @@ kable(read.csv("10OverEnrichR.csv"))
 
 ```
 
-### Enrichment analysis - under-expressed
+
+### Top 10 under-expressed genes
 
 ```{r, echo=FALSE, out.width="800px"}
 include_graphics("UenrichR.jpeg")
