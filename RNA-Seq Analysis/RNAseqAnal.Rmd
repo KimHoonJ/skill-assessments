@@ -1,0 +1,92 @@
+---
+title: "RNAseqAnal"
+author: "KIMHOONJ"
+date: "2023-09-12"
+output: 
+  html_document:
+    theme: readable
+    toc: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+# Get the directory of the current script
+script_dir <- dirname(rstudioapi::getActiveDocumentContext()$path)
+# Set the working directory to the script's directory
+setwd(script_dir)
+library(knitr)
+```
+
+Running codes on RMarkdown was not only excruciatingly slow,
+but also was turning my laptop into a frying pan.
+
+The analysis was done in R, and the images were loaded using knitr.
+The tables of results were saved in csv files and were loaded.
+
+### PCA plot
+
+```{r, echo=FALSE, out.width="800px"}
+include_graphics("PCA.jpeg")
+```
+
+
+### MA plot
+used normalized result (type == "normal")
+
+```{r, echo=FALSE, out.width="800px"}
+include_graphics("plotMA.jpeg")
+```
+
+
+### DEG table
+only top 6 rows
+```{r, echo=FALSE}
+kable(head(read.csv("results.csv")))
+```
+
+### Volcano plot
+
+```{r, echo=FALSE, out.width="800px"}
+include_graphics("Volcano.jpeg")
+```
+
+
+### Pheatmap - over-expressed
+
+```{r, echo=FALSE, out.width="800px"}
+include_graphics("Toppheat.jpeg")
+
+```
+
+
+### Pheatmap - under-expressed
+
+```{r, echo=FALSE, out.width="800px"}
+include_graphics("Botpheat.jpeg")
+
+```
+
+
+### Enrichment analysis - over-expressed
+
+```{r, echo=FALSE, out.width="800px"}
+include_graphics("OenrichR.jpeg")
+
+```
+
+
+```{r, echo=FALSE}
+kable(read.csv("10OverEnrichR.csv"))
+
+```
+
+### Enrichment analysis - under-expressed
+
+```{r, echo=FALSE, out.width="800px"}
+include_graphics("UenrichR.jpeg")
+
+```
+
+```{r, echo=FALSE}
+kable(read.csv("10UnderEnrichR.csv"))
+```
