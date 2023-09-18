@@ -1,0 +1,109 @@
+---
+title: "RNAseqAnalAdv"
+author: "KIMHOONJ"
+date: "2023-09-18"
+output: 
+  html_document:
+    theme: readable
+    toc: true
+    toc_float: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r, include=FALSE, echo=FALSE}
+script_dir <- dirname(rstudioapi::getActiveDocumentContext()$path)
+# Set the working directory to the script's directory
+setwd(script_dir)
+library(tiff)
+library(knitr)
+library(grid)
+library(DT)
+```
+
+Running codes on RMarkdown was not only excruciatingly slow,
+but also was turning my laptop into a frying pan.
+
+The analysis was done in R, and the images were loaded using knitr.
+The tables of results were saved in csv files and were loaded.
+
+I wanted to find a study related to glioma. 
+
+## Abstract - SRP064317
+
+Glioblastoma (GBM) is the most common and aggressive primary brain tumor in adults, with glioma initiating cells (GICs) implicated to be critical for tumor progression and resistance to therapy. KDM1B is involved in regulating GICs' responses to hypoxia, since over-expression of KDM1B delays the cell growth under hypoxia while knocking-down of KDM1B in GICs promotes their survival and tumorigenic abilities. Overall design: We used RNA-Sequencing to detail the global change of gene expression in GICs with knockdown of KDM1B, and identified de-regulated genes and pathways downstream of KDM1B. CD133+ D456MG GICs were infected with non-targeting control and shRNA of KDM1B. Then RNA was extracted and gene expression was profiled by RNA-Seq.
+
+## DESeq2 table
+```{r, echo=FALSE, out.width="800px", warning=FALSE}
+datatable(read.csv("DESeq2_results.csv"))
+```
+
+## MA plot
+### Unnormalized result
+```{r, echo=FALSE, out.width="800px"}
+grid.raster(readTIFF("MAplot.tiff"))
+```
+
+### Normalized Type apeglm
+```{r, echo=FALSE, out.width="800px"}
+grid.raster(readTIFF("MAplotNormalized.tiff"))
+```
+
+## PCA plot
+```{r, echo=FALSE, out.width="800px"}
+grid.raster(readTIFF("PCAplot.tiff"))
+```
+
+
+## Volcano plot
+```{r, echo=FALSE, out.width="800px"}
+grid.raster(readTIFF("Volcano.tiff"))
+```
+
+## Pheatmap
+### Top 10 Over-expressed
+```{r, echo=FALSE, out.width="800px"}
+grid.raster(readTIFF("TOpheat.tiff"))
+```
+
+### Top 10 Under-expressed
+```{r, echo=FALSE, out.width="800px"}
+grid.raster(readTIFF("TUpheat.tiff"))
+```
+
+## Enricher plot of under-expressed genes
+```{r, echo=FALSE, out.width="800px"}
+grid.raster(readTIFF("UEnricher.tiff"))
+```
+
+## GSEA plot of top 5
+```{r, echo=FALSE, out.width="800px"}
+grid.raster(readTIFF("GSEA1.tiff"))
+```
+```{r, echo=FALSE, out.width="800px"}
+grid.raster(readTIFF("GSEA2.tiff"))
+```
+```{r, echo=FALSE, out.width="800px"}
+grid.raster(readTIFF("GSEA3.tiff"))
+```
+```{r, echo=FALSE, out.width="800px"}
+grid.raster(readTIFF("GSEA4.tiff"))
+```
+```{r, echo=FALSE, out.width="800px"}
+grid.raster(readTIFF("GSEA5.tiff"))
+```
+
+
+## Conclusion?
+
+A - KDM1B knock-down cells... did not have lower expression of KDM1B??
+I had to triple check and KDM1B (GENEID = ENSG00000165097) expression did not change for some reason.
+
+B - Knock-down of KDM1B isn't simply associated with increased tumorgenesis.
+I have plotted Enricher plot of significantly under-expressed genes.
+Interestingly, several under-expressed genes are associated with thyroid cancer,
+cell migration, and liver cancer.
+
+C - Due to heterogeneitic nature of cancer cells, KDM1B may not be the ideal target for cancer treatment? While KDM1B knockdown may promote tumorgenesis in hypoxic glioblastoma microenvironment, but may inhibit cell migration or other tumorgenic activities for other types of cancer in different environment.

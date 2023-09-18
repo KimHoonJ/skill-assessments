@@ -36,7 +36,9 @@ anno <- AnnotationDbi::select(EnsDb.Hsapiens.v86, keys = keys(EnsDb.Hsapiens.v86
                               columns = c("SYMBOL"))
 
 colnames(anno)[1]<-"ENSEMBLE"
-resFrame <- res %>% as.data.frame() %>%
+
+## why didn't I use resNorm!?
+resFrame <- resNorm %>% as.data.frame() %>%
   rownames_to_column("ENSEMBLE")
 resFrame <- inner_join(anno, resFrame)
 
